@@ -104,7 +104,7 @@ export default {
       if (this.pagination.current_page === page) {
         return;
       }
-      this.$set(this.pagination, 'current_page', page);
+      this.$set('pagination.current_page', page);
       this.callback();
     },
   },
