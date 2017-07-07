@@ -1,5 +1,32 @@
+// Object assign polyfill - IE
+if (typeof Object.assign != 'function') {
+  Object.assign = function(target, varArgs) { // .length of function is 2
+    'use strict';
+    var arguments$1 = arguments;
+
+    if (target == null) { // TypeError if undefined or null
+      throw new TypeError('Cannot convert undefined or null to object');
+    }
+
+    var to = Object(target);
+
+    for (var index = 1; index < arguments.length; index++) {
+      var nextSource = arguments$1[index];
+
+      if (nextSource != null) { // Skip over if undefined or null
+        for (var nextKey in nextSource) {
+          // Avoid bugs when hasOwnProperty is shadowed
+          if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+            to[nextKey] = nextSource[nextKey];
+          }
+        }
+      }
+    }
+    return to;
+  };
+}
+
 var VueBootstrapPagination$1 = {render: function(){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('nav',[(_vm.pagination.last_page > 0)?_c('ul',{staticClass:"pagination",class:_vm.sizeClass},[(_vm.showPrevious())?_c('li',{class:{ 'disabled' : _vm.pagination.current_page <= 1 }},[(_vm.pagination.current_page <= 1)?_c('span',[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v(_vm._s(_vm.config.previousText))])]):_vm._e(),(_vm.pagination.current_page > 1 )?_c('a',{attrs:{"href":"#","aria-label":_vm.config.ariaPrevioius},on:{"click":function($event){$event.preventDefault();_vm.changePage(_vm.pagination.current_page - 1);}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v(_vm._s(_vm.config.previousText))])]):_vm._e()]):_vm._e(),_vm._l((_vm.array),function(num){return _c('li',{class:{ 'active' : num === _vm.pagination.current_page }},[_c('a',{attrs:{"href":"#"},on:{"click":function($event){$event.preventDefault();_vm.changePage(num);}}},[_vm._v(_vm._s(num))])])}),(_vm.showNext())?_c('li',{class:{ 'disabled' : _vm.pagination.current_page === _vm.pagination.last_page || _vm.pagination.last_page === 0 }},[(_vm.pagination.current_page === _vm.pagination.last_page || _vm.pagination.last_page === 0)?_c('span',[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v(_vm._s(_vm.config.nextText))])]):_vm._e(),(_vm.pagination.current_page < _vm.pagination.last_page)?_c('a',{attrs:{"href":"#","aria-label":_vm.config.ariaNext},on:{"click":function($event){$event.preventDefault();_vm.changePage(_vm.pagination.current_page + 1);}}},[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v(_vm._s(_vm.config.nextText))])]):_vm._e()]):_vm._e()],2):_vm._e()])},staticRenderFns: [],
-  name: 'pagination',
   props: {
     pagination: {
       type: Object,
